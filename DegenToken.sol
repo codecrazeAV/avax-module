@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
+pragma solidity 0.8.19;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -7,7 +7,6 @@ contract DegenToken is ERC20, Ownable {
 
 constructor()ERC20("DegenToken", "DGT") {
 }
-
 mapping(address => bool) private  isWhitelisted;
 function mint(address to, uint256 amount) public onlyOwner{
     _mint(to, amount);
@@ -21,7 +20,7 @@ function transfertokens(address to, uint256 amount) external {
      _transfer(msg.sender, to, amount);
 }
 
-function burn(uint256 amount) public {
+function burn(uint256 amount) public onlyOwner{
     require(balanceOf(msg.sender)>=amount,"Not enough balance");
     _burn(msg.sender, amount);
 }
@@ -46,7 +45,7 @@ function Redeem(uint256 choice, uint256 number) external{
 
 function Store(uint256 choice) public pure returns(string memory) {
     if(choice==1){
-        return "You have entered choice 1:DGT gold of worth 100 DGT";
+        return "You have entered choice 1: DGT gold of worth 100 DGT";
     }
     else if(choice==2)
     return "You have entered choice 2: DGT diamond, worth 1000 DGT";
